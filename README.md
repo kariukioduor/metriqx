@@ -20,4 +20,4 @@ pip install metriqx
 
 ## License
 
-`metriqx` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+`metriqx` is distributed under the terms of the [Elastic License 2.0](https://spdx.org/licenses/Elastic-2.0.html) license.
