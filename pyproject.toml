@@ -50,7 +50,6 @@ Documentation = "https://github.com/andrewkariuki/metriqx#readme"
 Funding = 'https://github.com/sponsors/andrewkariuki'
 Issues = "https://github.com/andrewkariuki/metriqx/issues"
 Source = "https://github.com/andrewkariuki/metriqx"
-Changelog = ""
 
 [tool.hatch.version]
 path = "metriqx/__init__.py"
