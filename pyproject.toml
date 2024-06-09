@@ -1,0 +1,117 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "metriqx"
+dynamic = ["version"]
+description = 'Application performance tracking library'
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE.txt"}
+keywords = ["FastAPI", "Prometheus", "Metrics", "Performance Monitor"]
+authors = [
+  { name = "Andrew Kariuki", email = "andrew.o.kariuki@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "Framework :: FastAPI",
+  "Framework :: AsyncIO",
+  "Framework :: Pydantic",
+  "Framework :: Pydantic :: 2",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Internet",
+  "Typing :: Typed",
+]
+dependencies = [
+    "fastapi-slim>=0.111.0",
+    "pydantic >=2.0.0,<3.0.0",
+    "pydantic-settings >=2.1.0",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[project.urls]
+Homepage = "https://github.com/andrewkariuki/metriqx"
+Documentation = "https://github.com/andrewkariuki/metriqx#readme"
+Funding = 'https://github.com/sponsors/andrewkariuki'
+Issues = "https://github.com/andrewkariuki/metriqx/issues"
+Source = "https://github.com/andrewkariuki/metriqx"
+Changelog = ""
+
+[tool.hatch.version]
+path = "metriqx/__init__.py"
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = 'text/markdown'
+# construct the PyPI readme from README.md and HISTORY.md
+fragments = [
+    {path = "README.md"},
+    {text = "\n## Changelog\n\n"},
+]
+# convert GitHuB issue/PR numbers and handles to links
+substitutions = [
+    {pattern = '(\s+)#(\d+)', replacement = '\1[#\2](https://github.com/andrewkariuki/metriqx/issues/\2)'},
+    {pattern = '(\s+)@([\w\-]+)', replacement = '\1[@\2](https://github.com/\2)'},
+    {pattern = '@@', replacement = '@'},
+]
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:metriqx tests}"
+
+[tool.coverage.run]
+source_pkgs = ["metriqx", "tests"]
+branch = true
+parallel = true
+omit = [
+  "metriqx/__init__.py",
+]
+
+[tool.coverage.paths]
+metriqx = ["metriqx", "*/metriqx/metriqx"]
+tests = ["tests", "*/metriqx/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.mypy]
+strict = true
+plugins = 'pydantic.mypy'
+
+[tool.pytest.ini_options]
+testpaths = 'tests'
+log_cli = "1"
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format= "%Y-%m-%d %H:%M:%S"
+asyncio_mode= "auto"
+filterwarnings = [
+    'error',
+    'ignore::DeprecationWarning',
+]
+
+[tool.codespell]
+skip = '.git,env*,__pycache__,.venv'
+ignore-words-list = 'ines,ser'
