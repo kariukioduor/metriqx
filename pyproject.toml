@@ -13,8 +13,8 @@ keywords = ["FastAPI", "Prometheus", "Metrics", "Performance Monitor"]
 authors = [{ name = "Andrew Kariuki", email = "andrew.o.kariuki@gmail.com" }]
 classifiers = [
   "Development Status :: 4 - Beta",
-  "Operating System :: OS Independent",
   "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
   "Intended Audience :: Information Technology",
   "Framework :: FastAPI",
   "Framework :: AsyncIO",
@@ -67,6 +67,7 @@ include = [
 artifacts = []
 
 [tool.hatch.version]
+source = "regex"
 path = "metriqx/__init__.py"
 pattern = "BUILD = 'b(?P<version>[^']+)'"
 
