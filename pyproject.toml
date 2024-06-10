@@ -10,9 +10,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {file = "LICENSE.txt"}
 keywords = ["FastAPI", "Prometheus", "Metrics", "Performance Monitor"]
-authors = [
-  { name = "Andrew Kariuki", email = "andrew.o.kariuki@gmail.com" },
-]
+authors = [{ name = "Andrew Kariuki", email = "andrew.o.kariuki@gmail.com" }]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Operating System :: OS Independent",
@@ -36,9 +34,9 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-    "fastapi >=0.111.0",
-    "flask >= 3.0.3",
-    "prometheus-client >= 0.20.0",
+    "fastapi>=0.111.0",
+    "flask>=3.0.3",
+    "prometheus-client>=0.20.0",
 ]
 
 [project.urls]
@@ -75,7 +73,7 @@ dependencies = [
   "mypy",
   "pytest",
   "pytest-cov",
-  "pytest-asyncio==0.21.1",
+  "pytest-asyncio",
   "pytest-mock",
   "pytest-xdist",
   "ruff",

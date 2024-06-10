@@ -21,7 +21,7 @@ class MetricsMiddleware(BaseHTTPMiddleware):
             0.002,
             0.05,
             0.1,
-            prometheus_client.utils.INF,
+            prometheus_client.utils.INF,  # type: ignore
         ),
     ) -> None:
         """Initialize a new MetricsMiddleware instance."""
