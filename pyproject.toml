@@ -33,10 +33,18 @@ classifiers = [
   "Topic :: Internet",
   "Typing :: Typed",
 ]
-dependencies = [
-    "fastapi>=0.111.0",
-    "flask>=3.0.3",
-    "prometheus-client>=0.20.0",
+dependencies = []
+
+[project.optional-dependencies]
+standard = [
+  "fastapi>=0.111.0",
+  "flask>=3.0.3",
+  "prometheus-client>=0.20.0",
+]
+all = [
+  "fastapi>=0.111.0",
+  "flask>=3.0.3",
+  "prometheus-client>=0.20.0",
 ]
 
 [project.urls]
@@ -59,9 +67,8 @@ include = [
 artifacts = []
 
 [tool.hatch.version]
-source = "regex_commit"
-commit_extra_args = ["-e"]
 path = "metriqx/__init__.py"
+pattern = "BUILD = 'b(?P<version>[^']+)'"
 
 [tool.hatch.envs.default]
 installer = "uv"
@@ -106,9 +113,10 @@ extra-dependencies = [
 check = "mypy --install-types --non-interactive {args:metriqx tests}"
 
 [tool.coverage.run]
-source_pkgs = ["metriqx", "tests"]
 branch = true
 parallel = true
+context = '${CONTEXT}'
+source_pkgs = ["metriqx", "tests"]
 omit = [
   "metriqx/__init__.py",
 ]
@@ -126,11 +134,41 @@ exclude_lines = [
 
 [tool.ruff]
 target-version = "py311"
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "W191",  # indentation contains tabs
+]
 
 [tool.ruff.lint]
 extend-select = ["I", "TRY", "UP"]
 ignore = ["E501"]
-per-file-ignores = { "conftest.py" = ["E731"], "tests/*" = ["TRY"], "swa_bert/repositories/*" = ["E711", "E712"], "swa_bert/alembic/*" = ["F401"]}
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"conftest.py" = ["E731"]
+"tests/*" = ["TRY"]
+
+[tool.ruff.lint.isort]
+known-third-party = ["fastapi", "flask", "starlette"]
+
+[tool.ruff.lint.pyupgrade]
+# Preserve types, even if a file imports `from __future__ import annotations`.
+keep-runtime-typing = true
+
+[tool.codespell]
+skip = '.git,env*,__pycache__,.venv'
+ignore-words-list = 'ines,ser'
 
 [tool.pytest.ini_options]
 testpaths = 'tests'
@@ -143,7 +181,3 @@ filterwarnings = [
     'error',
     'ignore::DeprecationWarning',
 ]
-
-[tool.codespell]
-skip = '.git,env*,__pycache__,.venv'
-ignore-words-list = 'ines,ser'
