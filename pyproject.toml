@@ -69,7 +69,6 @@ artifacts = []
 [tool.hatch.version]
 source = "regex"
 path = "metriqx/__init__.py"
-pattern = "BUILD = 'b(?P<version>[^']+)'"
 
 [tool.hatch.envs.default]
 installer = "uv"
