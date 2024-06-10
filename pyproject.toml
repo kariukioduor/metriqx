@@ -36,13 +36,10 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-    "fastapi-slim>=0.111.0",
-    "pydantic >=2.0.0,<3.0.0",
-    "pydantic-settings >=2.1.0",
+    "fastapi >=0.111.0",
+    "flask >= 3.0.3",
+    "prometheus-client >= 0.20.0",
 ]
-
-[tool.hatch.metadata]
-allow-direct-references = true
 
 [project.urls]
 Homepage = "https://github.com/andrewkariuki/metriqx"
@@ -51,22 +48,56 @@ Funding = 'https://github.com/sponsors/andrewkariuki'
 Issues = "https://github.com/andrewkariuki/metriqx/issues"
 Source = "https://github.com/andrewkariuki/metriqx"
 
+[tool.hatch]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build]
+include = [
+  "/metriqx/**/*.py",
+  "/metriqx/py.typed",
+]
+artifacts = []
+
 [tool.hatch.version]
+source = "regex_commit"
+commit_extra_args = ["-e"]
 path = "metriqx/__init__.py"
 
-[tool.hatch.metadata.hooks.fancy-pypi-readme]
-content-type = 'text/markdown'
-# construct the PyPI readme from README.md and HISTORY.md
-fragments = [
-    {path = "README.md"},
-    {text = "\n## Changelog\n\n"},
+[tool.hatch.envs.default]
+installer = "uv"
+python = "3.12"
+dependencies = [
+  "beautifulsoup4",
+  "coverage[toml]",
+  "gevent",
+  "mypy",
+  "pytest",
+  "pytest-cov",
+  "pytest-asyncio==0.21.1",
+  "pytest-mock",
+  "pytest-xdist",
+  "ruff",
 ]
-# convert GitHuB issue/PR numbers and handles to links
-substitutions = [
-    {pattern = '(\s+)#(\d+)', replacement = '\1[#\2](https://github.com/andrewkariuki/metriqx/issues/\2)'},
-    {pattern = '(\s+)@([\w\-]+)', replacement = '\1[@\2](https://github.com/\2)'},
-    {pattern = '@@', replacement = '@'},
+
+[tool.hatch.envs.default.scripts]
+test = "pytest {args}"
+test-cov-xml = "pytest --cov metriqx/ --cov-report=xml --exitfirst"
+lint = [
+  "ruff format .",
+  "ruff check --fix .",
+  "mypy metriqx/",
 ]
+lint-check = [
+  "ruff format --check .",
+  "ruff check .",
+  "mypy metriqx/",
+]
+
+[tool.mypy]
+strict = true
+plugins = 'pydantic.mypy'
 
 [tool.hatch.envs.types]
 extra-dependencies = [
@@ -95,9 +126,13 @@ exclude_lines = [
   "if TYPE_CHECKING:",
 ]
 
-[tool.mypy]
-strict = true
-plugins = 'pydantic.mypy'
+[tool.ruff]
+target-version = "py311"
+
+[tool.ruff.lint]
+extend-select = ["I", "TRY", "UP"]
+ignore = ["E501"]
+per-file-ignores = { "conftest.py" = ["E731"], "tests/*" = ["TRY"], "swa_bert/repositories/*" = ["E711", "E712"], "swa_bert/alembic/*" = ["F401"]}
 
 [tool.pytest.ini_options]
 testpaths = 'tests'
